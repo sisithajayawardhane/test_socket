@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
 });
 
 client.on('message', function (topic, message) {
-    for(let i = 1; i < 100; i++ ){
+    for(let i = 0; i < 1000; i++ ){
         io.emit(`getData/69af441143c8da93471dd63f4bc0c763/${i}`, `${i}`);
     }
     
