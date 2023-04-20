@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
 
 client.on('message', function (topic, message) {
     // message is Buffer
-    io.emit('getData/69af441143c8da93471dd63f4bc0c763/test_int', message.toString());
+    io.emit('getData/69af441143c8da93471dd63f4bc0c763/test_int', "janith rox");
     console.log(topic)
     console.log(message.toString())
   })
