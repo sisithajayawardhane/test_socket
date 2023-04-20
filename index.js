@@ -1,4 +1,7 @@
 // Import modules
+const mqtt = require('mqtt')
+const client  = mqtt.connect('mqtt://mqtt.casi.io', {username:'3c5080278d63e18c6aff21054f1c4d8ce304fa89', password:'3c5080278d63e18c6aff21054f1c4d8ce304fa89'})
+
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
@@ -10,23 +13,28 @@ const server = http.createServer(app);
 // Initialize socket.io on the server
 const io = socketIO(server);
 
-// Listen for client connections
+client.on('connect', function () {
+    console.log("Connected to mqtt broker");
+    client.subscribe('casi/production/in/69af441143c8da93471dd63f4bc0c763/test_int', function (err) {
+      if (!err) {
+        client.publish('presence', 'Hello mqtt')
+      }
+    })
+  })
 io.on('connection', (socket) => {
   console.log('A user connected');
 
-  // Listen for chat messages from the client
-  socket.on('chat message', (msg) => {
-    console.log('Received message:', msg);
-
-    // Broadcast the message to all connected clients
-    io.emit('chat message', msg);
-  });
-
-  // Listen for disconnections
   socket.on('disconnect', () => {
     console.log('A user disconnected');
   });
 });
+
+client.on('message', function (topic, message) {
+    // message is Buffer
+    io.emit('getData/69af441143c8da93471dd63f4bc0c763/test_int', message.toString());
+    console.log(topic)
+    console.log(message.toString())
+  })
 
 // Serve static files from the public directory
 app.use(express.static('public'));

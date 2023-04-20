@@ -1,0 +1,10 @@
+/node_modules
+/images
+/reports
+/logs
+/notebookFiles
+/storage
+.env
+*.heapsnapshot
+trace.log
+*.env
